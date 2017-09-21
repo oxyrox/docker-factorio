@@ -6,7 +6,7 @@ if [ -z ${VERSION} ]
 then
     echo "Packages an arbitrary Factorio release."
     echo
-    echo "Usage: ./download_release.sh 0.14.15"
+    echo "Usage: $0 0.15.34"
     exit 1
 fi
 
@@ -22,14 +22,14 @@ then
 fi
 
 docker build --build-arg factorio_version=${VERSION} \
-    -t quay.io/games_on_k8s/factorio:${VERSION} .
-docker run --rm -it quay.io/games_on_k8s/factorio:${VERSION}
+    -t quay.io/oxyrox/factorio-k8s:${VERSION} .
+docker run --rm -it quay.io/oxyrox/factorio-k8s:${VERSION}
 
 while true; do
     read -p "Publish the built image? (y/n) " yn
     case $yn in
         [Yy]* )
-            docker push quay.io/games_on_k8s/factorio:${VERSION}
+            docker push quay.io/oxyrox/factorio-k8s:${VERSION}
             break;;
         [Nn]* )
             exit;;
